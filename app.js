@@ -41,6 +41,21 @@ const port = 8080
 const users = new UserMongo()
 const products = new ProdMongo()
 
+const swaggerOptions = {
+    definition:{
+        openapi:'3.0.1',
+        info:{
+            title: 'Documentación de Api',
+            description:'Documentación con Swagger'
+        }
+    },
+    apis:[`src/docs/users.yaml`,
+          `src/docs/products.yaml`,
+          `src/docs/tickets.yaml`,
+          `src/docs/carts.yaml`]
+}
+const specs = swaggerJsdoc(swaggerOptions)
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 mongoose.connect(config.mongo_url, {
     useNewUrlParser: true,
